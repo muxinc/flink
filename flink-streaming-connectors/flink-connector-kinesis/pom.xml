@@ -106,6 +106,12 @@ under the License.
 			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -138,6 +144,9 @@ under the License.
 								<includes>
 									<include>com.amazonaws:*</include>
 									<include>com.google.protobuf:*</include>
+									<include>joda-time:*</include>
+									<include>org.apache.httpcomponents:*</include>
+									<include>com.fasterxml.jackson.dataformat:jackson-dataformat-cbor</include>
 								</includes>
 							</artifactSet>
 							<relocations combine.children="override">
@@ -149,6 +158,18 @@ under the License.
 								<relocation>
 									<pattern>com.google.protobuf</pattern>
 									<shadedPattern>org.apache.flink.kinesis.shaded.com.google.protobuf</shadedPattern>
+								</relocation>
+								<relocation>
+									<pattern>org.apache.http</pattern>
+									<shadedPattern>org.apache.flink.kinesis.shaded.org.apache.http</shadedPattern>
+								</relocation>
+								<relocation>
+									<pattern>com.fasterxml.jackson.dataformat.cbor</pattern>
+									<shadedPattern>org.apache.flink.kinesis.shaded.com.fasterxml.jackson.dataformat.cbor</shadedPattern>
+								</relocation>
+								<relocation>
+									<pattern>org.joda.time</pattern>
+									<shadedPattern>org.apache.flink.kinesis.shaded.org.joda.time</shadedPattern>
 								</relocation>
 							</relocations>
 						</configuration>
