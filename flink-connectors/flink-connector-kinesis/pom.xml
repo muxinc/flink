@@ -33,9 +33,9 @@ under the License.
 	<artifactId>flink-connector-kinesis_2.10</artifactId>
 	<name>flink-connector-kinesis</name>
 	<properties>
-		<aws.sdk.version>1.10.71</aws.sdk.version>
-		<aws.kinesis-kcl.version>1.6.2</aws.kinesis-kcl.version>
-		<aws.kinesis-kpl.version>0.10.2</aws.kinesis-kpl.version>
+		<aws.sdk.version>1.11.58</aws.sdk.version>
+		<aws.kinesis-kcl.version>1.7.2</aws.kinesis-kcl.version>
+		<aws.kinesis-kpl.version>0.12.2</aws.kinesis-kpl.version>
 	</properties>
 
 	<packaging>jar</packaging>
@@ -122,6 +122,12 @@ under the License.
 			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -154,6 +160,9 @@ under the License.
 								<includes>
 									<include>com.amazonaws:*</include>
 									<include>com.google.protobuf:*</include>
+									<include>joda-time:*</include>
+									<include>org.apache.httpcomponents:*</include>
+									<include>com.fasterxml.jackson.dataformat:jackson-dataformat-cbor</include>
 								</includes>
 							</artifactSet>
 							<relocations combine.children="override">
@@ -167,8 +176,16 @@ under the License.
 									<shadedPattern>org.apache.flink.kinesis.shaded.com.google.protobuf</shadedPattern>
 								</relocation>
 								<relocation>
-									<pattern>com.amazonaws</pattern>
-									<shadedPattern>org.apache.flink.kinesis.shaded.com.amazonaws</shadedPattern>
+									<pattern>org.apache.http</pattern>
+									<shadedPattern>org.apache.flink.kinesis.shaded.org.apache.http</shadedPattern>
+								</relocation>
+								<relocation>
+									<pattern>com.fasterxml.jackson.dataformat.cbor</pattern>
+									<shadedPattern>org.apache.flink.kinesis.shaded.com.fasterxml.jackson.dataformat.cbor</shadedPattern>
+								</relocation>
+								<relocation>
+									<pattern>org.joda.time</pattern>
+									<shadedPattern>org.apache.flink.kinesis.shaded.org.joda.time</shadedPattern>
 								</relocation>
 							</relocations>
 						</configuration>
