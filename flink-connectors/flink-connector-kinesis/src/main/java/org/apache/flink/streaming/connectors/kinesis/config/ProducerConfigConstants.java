@@ -30,4 +30,7 @@ public class ProducerConfigConstants extends AWSConfigConstants {
 	/** Maximum number of items to pack into an aggregated record. **/
 	public static final String AGGREGATION_MAX_COUNT = "aws.producer.aggregationMaxCount";
 
+	/** Toggle certificate verification when using TLS to communicate with AWS Kinesis endpoint. **/
+	public static final String TLS_CERTIFICATE_VERIFICATION_ENABLED = "aws.producer.tlsCertificateVerificationEnabled";
+
 }
