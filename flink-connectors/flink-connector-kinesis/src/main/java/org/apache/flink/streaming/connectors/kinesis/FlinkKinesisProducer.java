@@ -24,6 +24,8 @@ import com.amazonaws.services.kinesis.producer.UserRecordResult;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.flink.api.java.ClosureCleaner;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
@@ -180,6 +182,9 @@ public class FlinkKinesisProducer<OUT> extends RichSinkFunction<OUT> {
 			if (kinesisURI.getPort() != -1) {
 				producerConfig.setKinesisPort(kinesisURI.getPort());
 			}
+		}
+		if (configProps.containsKey(ProducerConfigConstants.TLS_CERTIFICATE_VERIFICATION_ENABLED)) {
+			producerConfig.setVerifyCertificate(BooleanUtils.toBoolean(configProps.getProperty(ProducerConfigConstants.TLS_CERTIFICATE_VERIFICATION_ENABLED)));
 		}
 		if (configProps.containsKey(ProducerConfigConstants.COLLECTION_MAX_COUNT)) {
 			producerConfig.setCollectionMaxCount(PropertiesUtil.getLong(configProps,
