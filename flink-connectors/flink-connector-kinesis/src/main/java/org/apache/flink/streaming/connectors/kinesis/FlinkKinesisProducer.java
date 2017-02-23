@@ -27,6 +27,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import org.apache.flink.api.java.ClosureCleaner;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
+import org.apache.flink.streaming.connectors.kinesis.config.AWSConfigConstants;
 import org.apache.flink.streaming.connectors.kinesis.config.ProducerConfigConstants;
 import org.apache.flink.streaming.connectors.kinesis.serialization.KinesisSerializationSchema;
 import org.apache.flink.streaming.connectors.kinesis.util.AWSUtil;
@@ -36,6 +37,7 @@ import org.apache.flink.util.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Objects;
@@ -172,6 +174,13 @@ public class FlinkKinesisProducer<OUT> extends RichSinkFunction<OUT> {
 
 		producerConfig.setRegion(configProps.getProperty(ProducerConfigConstants.AWS_REGION));
 		producerConfig.setCredentialsProvider(AWSUtil.getCredentialsProvider(configProps));
+		if (configProps.containsKey(AWSConfigConstants.AWS_ENDPOINT)) {
+			final URI kinesisURI = new URI(configProps.getProperty(AWSConfigConstants.AWS_ENDPOINT));
+			producerConfig.setKinesisEndpoint(kinesisURI.getHost());
+			if (kinesisURI.getPort() != -1) {
+				producerConfig.setKinesisPort(kinesisURI.getPort());
+			}
+		}
 		if (configProps.containsKey(ProducerConfigConstants.COLLECTION_MAX_COUNT)) {
 			producerConfig.setCollectionMaxCount(PropertiesUtil.getLong(configProps,
 					ProducerConfigConstants.COLLECTION_MAX_COUNT, producerConfig.getCollectionMaxCount(), LOG));
