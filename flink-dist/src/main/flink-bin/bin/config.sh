@@ -19,13 +19,23 @@
 
 constructFlinkClassPath() {
 
+    # Additional JAR files
     while read -d '' -r jarfile ; do
         if [[ $FLINK_CLASSPATH = "" ]]; then
             FLINK_CLASSPATH="$jarfile";
         else
             FLINK_CLASSPATH="$FLINK_CLASSPATH":"$jarfile"
         fi
-    done < <(find "$FLINK_LIB_DIR" ! -type d -name '*.jar' -print0)
+    done < <(find "$FLINK_LIB_DIR" \( -iname "*.jar" ! -iname "*flink-dist*.jar" ! -type d \) -print0 | sort -z)
+
+    # Flink distribution JAR
+    while read -d '' -r jarfile ; do
+        if [[ $FLINK_CLASSPATH = "" ]]; then
+            FLINK_CLASSPATH="$jarfile";
+        else
+            FLINK_CLASSPATH="$FLINK_CLASSPATH":"$jarfile"
+        fi
+    done < <(find "$FLINK_LIB_DIR" \( -iname "*flink-dist*.jar" ! -type d \) -print0 | sort -z)
 
     echo $FLINK_CLASSPATH
 }
