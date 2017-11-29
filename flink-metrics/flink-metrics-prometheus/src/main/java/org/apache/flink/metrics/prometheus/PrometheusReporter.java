@@ -208,19 +208,13 @@ public class PrometheusReporter implements MetricReporter {
 		@Override
 		public Response serve(IHTTPSession session) {
 			if (session.getUri().equals("/metrics")) {
+				StringWriter writer = new StringWriter();
 				try {
-					StringWriter writer = new StringWriter();
-					try {
-						TextFormat.write004(writer, CollectorRegistry.defaultRegistry.metricFamilySamples());
-					} catch (IOException e) {
-						LOG.warn("Error while formatting Prometheus metrics", e);
-						return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, MIME_TYPE, "Unable to output metrics");
-					}
-					return newFixedLengthResponse(Response.Status.OK, TextFormat.CONTENT_TYPE_004, writer.toString());
-				} catch (Exception e) {
-					LOG.warn("Error while rendering HTTP response with Prometheus metrics", e);
-					return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, MIME_TYPE, "Unable to render Prometheus response");
+					TextFormat.write004(writer, CollectorRegistry.defaultRegistry.metricFamilySamples());
+				} catch (IOException e) {
+					return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, MIME_TYPE, "Unable to output metrics");
 				}
+				return newFixedLengthResponse(Response.Status.OK, TextFormat.CONTENT_TYPE_004, writer.toString());
 			} else {
 				return newFixedLengthResponse(Response.Status.NOT_FOUND, MIME_TYPE, "Not found");
 			}
