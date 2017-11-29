@@ -218,7 +218,7 @@ public class PrometheusReporter implements MetricReporter {
 	}
 
 	@VisibleForTesting
-	static io.prometheus.client.Gauge.Child gaugeFrom(Gauge gauge) {
+	static io.prometheus.client.Gauge.Child gaugeFrom(final Gauge gauge) {
 		return new io.prometheus.client.Gauge.Child() {
 			@Override
 			public double get() {
@@ -243,7 +243,7 @@ public class PrometheusReporter implements MetricReporter {
 		};
 	}
 
-	private static io.prometheus.client.Gauge.Child gaugeFrom(Counter counter) {
+	private static io.prometheus.client.Gauge.Child gaugeFrom(final Counter counter) {
 		return new io.prometheus.client.Gauge.Child() {
 			@Override
 			public double get() {
@@ -252,7 +252,7 @@ public class PrometheusReporter implements MetricReporter {
 		};
 	}
 
-	private static io.prometheus.client.Gauge.Child gaugeFrom(Meter meter) {
+	private static io.prometheus.client.Gauge.Child gaugeFrom(final Meter meter) {
 		return new io.prometheus.client.Gauge.Child() {
 			@Override
 			public double get() {
