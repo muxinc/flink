@@ -154,10 +154,16 @@ under the License.
 								<includes>
 									<include>com.amazonaws:*</include>
 									<include>com.google.protobuf:*</include>
+									<include>org.apache.httpcomponents:*</include>
+									<include>com.fasterxml.jackson.core:*</include>
 								</includes>
 							</artifactSet>
 							<relocations combine.children="override">
 								<!-- DO NOT RELOCATE GUAVA IN THIS PACKAGE -->
+								<relocation>
+									<pattern>com.fasterxml.jackson</pattern>
+									<shadedPattern>org.apache.flink.kinesis.shaded.com.fasterxml.jackson</shadedPattern>
+								</relocation>
 								<relocation>
 									<pattern>com.google.protobuf</pattern>
 									<shadedPattern>org.apache.flink.kinesis.shaded.com.google.protobuf</shadedPattern>
