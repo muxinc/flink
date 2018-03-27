@@ -152,6 +152,7 @@ under the License.
 							<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
 							<artifactSet combine.children="append">
 								<includes>
+									<include>joda-time:*</include>
 									<include>com.amazonaws:*</include>
 									<include>com.google.protobuf:*</include>
 									<include>org.apache.httpcomponents:*</include>
@@ -160,6 +161,10 @@ under the License.
 							</artifactSet>
 							<relocations combine.children="override">
 								<!-- DO NOT RELOCATE GUAVA IN THIS PACKAGE -->
+								<relocation>
+									<pattern>org.joda</pattern>
+									<shadedPattern>org.apache.flink.kinesis.shaded.org.joda</shadedPattern>
+								</relocation>
 								<relocation>
 									<pattern>com.fasterxml.jackson</pattern>
 									<shadedPattern>org.apache.flink.kinesis.shaded.com.fasterxml.jackson</shadedPattern>
