@@ -157,6 +157,7 @@ under the License.
 									<include>com.google.protobuf:*</include>
 									<include>org.apache.httpcomponents:*</include>
 									<include>com.fasterxml.jackson.core:*</include>
+									<include>com.fasterxml.jackson.dataformat:*</include>
 								</includes>
 							</artifactSet>
 							<relocations combine.children="override">
