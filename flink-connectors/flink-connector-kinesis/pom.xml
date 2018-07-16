@@ -161,6 +161,9 @@ under the License.
 									<include>com.amazonaws:*</include>
 									<include>com.google.protobuf:*</include>
 									<include>org.apache.httpcomponents:*</include>
+									<include>com.fasterxml.jackson.core:*</include>
+									<include>com.fasterxml.jackson.dataformat:*</include>
+									<include>joda-time:*</include>
 								</includes>
 							</artifactSet>
 							<relocations combine.children="override">
@@ -176,6 +179,10 @@ under the License.
 								<relocation>
 									<pattern>org.apache.http</pattern>
 									<shadedPattern>org.apache.flink.kinesis.shaded.org.apache.http</shadedPattern>
+								</relocation>
+								<relocation>
+									<pattern>org.joda.time</pattern>
+									<shadedPattern>org.apache.flink.kinesis.shaded.org.joda.time</shadedPattern>
 								</relocation>
 							</relocations>
 						</configuration>
