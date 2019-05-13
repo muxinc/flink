@@ -80,19 +80,25 @@ public class AWSUtil {
 				EnvironmentInformation.getRevisionInformation().commitId));
 
 		// utilize automatic refreshment of credentials by directly passing the AWSCredentialsProvider
-		AmazonKinesisClientBuilder builder = AmazonKinesisClientBuilder.standard()
-				.withCredentials(AWSUtil.getCredentialsProvider(configProps))
-				.withClientConfiguration(awsClientConfig);
-
-        if (configProps.containsKey(AWSConfigConstants.AWS_ENDPOINT)) {
-            // Set signingRegion as null, to facilitate mocking Kinesis for local tests
-            builder.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(
-                configProps.getProperty(AWSConfigConstants.AWS_ENDPOINT),
-                null));
-        }
-        if (configProps.containsKey(AWSConfigConstants.AWS_REGION)) {
-            builder.withRegion(Regions.fromName(configProps.getProperty(AWSConfigConstants.AWS_REGION)));
-        }
+		final AmazonKinesisClientBuilder builder = AmazonKinesisClientBuilder.standard()
+			.withCredentials(AWSUtil.getCredentialsProvider(configProps))
+			.withClientConfiguration(awsClientConfig);
+		if (configProps.containsKey(AWSConfigConstants.AWS_ENDPOINT) && configProps.containsKey(AWSConfigConstants.AWS_REGION)) {
+			// Set signingRegion as to the AWS_REGION property value
+			builder.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(
+				configProps.getProperty(AWSConfigConstants.AWS_ENDPOINT),
+				configProps.getProperty(AWSConfigConstants.AWS_REGION)));
+		} else {
+			if (configProps.containsKey(AWSConfigConstants.AWS_ENDPOINT)) {
+				// Set signingRegion as null, to facilitate mocking Kinesis for local tests
+				builder.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(
+					configProps.getProperty(AWSConfigConstants.AWS_ENDPOINT),
+					null));
+			}
+			if (configProps.containsKey(AWSConfigConstants.AWS_REGION)) {
+				builder.withRegion(Regions.fromName(configProps.getProperty(AWSConfigConstants.AWS_REGION)));
+			}
+		}
 		return builder.build();
 	}
 
